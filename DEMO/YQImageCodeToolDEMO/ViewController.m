@@ -30,7 +30,7 @@
     [YQImageCodeTool defaultTool].delegate = self;
     
     //初始化相机View
-    [[YQImageCodeTool defaultTool]SetUpTheCameraViewWithSize:CGSizeMake(200, 200)];
+    [[YQImageCodeTool defaultTool]SetUpTheCameraViewWithSize:CGSizeMake(200, 400)];
     
     
     [self.view addSubview:[YQImageCodeTool defaultTool].CameraView];
