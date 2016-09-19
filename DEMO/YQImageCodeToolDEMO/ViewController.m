@@ -31,12 +31,15 @@
 
 //扫码DEMO
 -(void)codeDEMO{
+    
+    //设置代理
+    [YQImageCodeTool defaultTool].delegate = self;
+    
+    
     //检查相机权限是否可用
     //若未尝试获取权限，则会立即尝试获取权限。
     [[YQImageCodeTool defaultTool] CheckCameraAvailable];
     
-    //设置代理
-    [YQImageCodeTool defaultTool].delegate = self;
     
     //初始化相机View
     [[YQImageCodeTool defaultTool]SetUpTheCameraViewWithSize:CGSizeMake(200, 400)];
@@ -44,6 +47,7 @@
     //展示使用CameraView
     [self.view addSubview:[YQImageCodeTool defaultTool].CameraView];
 }
+
 
 //生成二维码DEMO
 -(void)CreatImageDEMO{
@@ -75,7 +79,6 @@
 -(void)YQImageCodeToolCameraAvailableResult:(BOOL)available{
     NSLog(@"Camera available = %d",available);
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
