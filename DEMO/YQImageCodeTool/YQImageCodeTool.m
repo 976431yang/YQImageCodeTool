@@ -198,4 +198,44 @@ UIView *qrCodeFrameView;
         return  CGRectMake(x,y,width, height);
     }
 }
+
+//创建二维码
++(UIImage *)CreatQrCodeImageWithMessage:(NSString *)message
+                               andWidth:(CGFloat)size{
+    
+    if ([message isEqualToString:@""] || (!message)) {
+        return nil;
+    }
+    
+    //创建二维码滤镜
+    CIFilter *filter=[CIFilter filterWithName:@"CIQRCodeGenerator"];
+    //使用滤镜的默认属性
+    [filter setDefaults];
+
+    NSData *data=[message dataUsingEncoding:NSUTF8StringEncoding];
+    //把信息传给滤镜
+    [filter setValue:data forKey:@"inputMessage"];
+
+    CIImage *outputImage = [filter outputImage];
+    
+    //转换成UIImage,并放大
+    CGRect extent = CGRectIntegral(outputImage.extent);
+    CGFloat scale = MIN(size/CGRectGetWidth(extent), size/CGRectGetHeight(extent));
+    //创建bitmap;
+    size_t width = CGRectGetWidth(extent) * scale;
+    size_t height = CGRectGetHeight(extent) * scale;
+    CGColorSpaceRef cs = CGColorSpaceCreateDeviceGray();
+    CGContextRef bitmapRef = CGBitmapContextCreate(nil, width, height, 8, 0, cs, (CGBitmapInfo)kCGImageAlphaNone);
+    CIContext *context = [CIContext contextWithOptions:nil];
+    CGImageRef bitmapImage = [context createCGImage:outputImage fromRect:extent];
+    CGContextSetInterpolationQuality(bitmapRef, kCGInterpolationNone);
+    CGContextScaleCTM(bitmapRef, scale, scale);
+    CGContextDrawImage(bitmapRef, extent, bitmapImage);
+    //保存bitmap到图片
+    CGImageRef scaledImage = CGBitmapContextCreateImage(bitmapRef);
+    CGContextRelease(bitmapRef);
+    CGImageRelease(bitmapImage);
+    return [UIImage imageWithCGImage:scaledImage];
+
+}
 @end

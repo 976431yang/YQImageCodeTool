@@ -48,7 +48,9 @@ typedef void(^CameraAvailableBlock)(bool available);
 @property(nonatomic,strong)UIView *CameraView;
 
 
-
+//创建二维码
++CreatQrCodeImageWithMessage:(NSString *)message
+                    andWidth:(CGFloat)size;
 
 
 @end
