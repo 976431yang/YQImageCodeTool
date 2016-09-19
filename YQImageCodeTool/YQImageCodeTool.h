@@ -14,6 +14,9 @@
 //获取到了二维码/条形码 信息
 -(void)YQImageCodeToolGotCodeMessage:(NSString *)message;
 
+//相机是否能用返回结果
+-(void)YQImageCodeToolCameraAvailableResult:(BOOL)available;
+
 @end
 
 
@@ -28,7 +31,7 @@
 
 //--检查相机权限是否可用
 //若未尝试获取权限，则会立即尝试获取权限。
-//请在CameraAvailableBlock中捕获结果。
+//请在代理中捕获结果。
 -(void)CheckCameraAvailable;
 
 //--检测相机权限的结果。
