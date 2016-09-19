@@ -30,7 +30,7 @@
 //代理
 #pragma mark YQImageCodeToolDelegate
 
-//扫描到了信息
+//扫描到了信息（CameraView会自动在识别到的区域显示一个绿色边框，效果见下图）
 -(void)YQImageCodeToolGotCodeMessage:(NSString *)message{
     NSLog(@"message:%@",message);
 }
