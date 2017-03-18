@@ -1,14 +1,14 @@
 # YQImageCodeTool
-####微博：畸形滴小男孩
+#### 微博：畸形滴小男孩
 
-###iOS端二维码/条形码 的 识别/生成 的小工具
+### iOS端二维码/条形码 的 识别/生成 的小工具
 
 
-####使用方法：把文件拖到XCodeg工程中，引入头文件使用
+#### 使用方法：把文件拖到XCodeg工程中，引入头文件使用
 ```Objective-C
 #import "YQImageCodeTool.h"
 ```
-#####扫描二维码/条形码
+##### 扫描二维码/条形码
 -注：若需要扫描 条形码 ，请尽量将条形码对准中间，以提高识别率。（二维码无此问题）
 ```Objective-C
 	
@@ -44,7 +44,7 @@
 ![image](https://github.com/976431yang/YQImageCodeTool/blob/master/DEMO/screenshot/screenShot2.PNG)
 ![image](https://github.com/976431yang/YQImageCodeTool/blob/master/DEMO/screenshot/screenShot3.PNG)
 
-#####生成二维码
+##### 生成二维码
 ```Objective-C
 	
 	//Message：需要写入二维码的信息
