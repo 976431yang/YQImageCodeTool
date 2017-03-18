@@ -58,7 +58,7 @@ UIView *qrCodeFrameView;
 
 //初始化扫描相机
 //注：会自动尝试获取相机权限
--(void)SetUpTheCameraViewWithSize:(CGSize)Size
+-(void)SetUpTheCameraViewWithFrame:(CGRect)frame
 {
     //一个AVCaptureDevice对象代表了一个物理上的视频设备，在这里配置了一个默认的视频设备。由于将要捕获视频数据，所以调用defaultDeviceWithMediaType方法和AVMediaTypeVideo来得到视频设备。
     AVCaptureDevice *captureDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
@@ -86,9 +86,7 @@ UIView *qrCodeFrameView;
     AVCaptureVideoPreviewLayer *videoPreViewLayer = [[AVCaptureVideoPreviewLayer alloc]initWithSession:captureSession];
     videoPreViewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
     
-    self.CameraView = [[UIView alloc]initWithFrame:CGRectMake(0, 0,
-                                                              Size.width,
-                                                              Size.height)];
+    self.CameraView = [[UIView alloc]initWithFrame:frame];
     
     videoPreViewLayer.frame = self.CameraView.bounds;
     

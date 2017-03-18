@@ -21,7 +21,7 @@
     [[YQImageCodeTool defaultTool] CheckCameraAvailable];
 
     //初始化相机View
-    [[YQImageCodeTool defaultTool]SetUpTheCameraViewWithSize:CGSizeMake(200, 400)];
+    [[YQImageCodeTool defaultTool]SetUpTheCameraViewWithFrame:self.view.bounds];
     
     //展示使用CameraView
     [self.view addSubview:[YQImageCodeTool defaultTool].CameraView];

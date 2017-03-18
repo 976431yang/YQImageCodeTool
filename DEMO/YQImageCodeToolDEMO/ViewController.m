@@ -8,11 +8,14 @@
 
 #import "ViewController.h"
 
+#import "ScanViewController.h"
+#import "CreatViewController.h"
 
-#import "YQImageCodeTool.h"
 
 
-@interface ViewController ()<YQImageCodeToolDelegate>
+@interface ViewController ()<UITableViewDelegate,UITableViewDataSource>
+
+@property(nonatomic,strong)UITableView *tableview;
 
 @end
 
@@ -20,69 +23,77 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
     
-    //扫码DEMO
-    [self codeDEMO];
+    self.view.frame = [UIScreen mainScreen].bounds;
+    self.view.backgroundColor = [UIColor whiteColor];
     
-    //生成二维码DEMO
-    //[self CreatImageDEMO];
+    self.title = @"二维码工具";
+    
+    self.tableview  = [[UITableView alloc]initWithFrame:self.view.bounds
+                                                  style:UITableViewStyleGrouped];
+    self.tableview.dataSource = self;
+    self.tableview.delegate = self;
+    
+    [self.view addSubview:self.tableview];
+    
+    [self.tableview registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cellID"];
 }
 
-//扫码DEMO
--(void)codeDEMO{
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 1;
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return 2;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    //设置代理
-    [YQImageCodeTool defaultTool].delegate = self;
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellID"];
     
+    switch (indexPath.row) {
+        case 0:
+        {
+            cell.textLabel.text = @"扫码DEMO";
+        }
+            break;
+        case 1:
+        {
+            cell.textLabel.text = @"生成二维码DEMO";
+        }
+            break;
+            
+        default:
+            break;
+    }
     
-    //检查相机权限是否可用
-    //若未尝试获取权限，则会立即尝试获取权限。
-    [[YQImageCodeTool defaultTool] CheckCameraAvailable];
-    
-    
-    //初始化相机View
-    [[YQImageCodeTool defaultTool]SetUpTheCameraViewWithSize:CGSizeMake(200, 400)];
-    
-    //展示使用CameraView
-    [self.view addSubview:[YQImageCodeTool defaultTool].CameraView];
+    return cell;
 }
 
 
-//生成二维码DEMO
--(void)CreatImageDEMO{
-    //生成二维码
-    UIImage *image = [YQImageCodeTool CreatQrCodeImageWithMessage:@"http://www.baidu.com"
-                                                         andWidth:500];
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    //放到屏幕上查看
-    UIImageView *IMGV = [[UIImageView alloc]initWithFrame:CGRectMake(0,
-                                                                     20,
-                                                                     300,
-                                                                     300)];
-    IMGV.contentMode = UIViewContentModeScaleAspectFill;
-    IMGV.image = image;
-    
-    [self.view addSubview:IMGV];
+    [tableView cellForRowAtIndexPath:indexPath].selected = NO;
+   
+    switch (indexPath.row) {
+        case 0:
+        {
+            ScanViewController *ScanVC = [[ScanViewController alloc]init];
+            
+            [self.navigationController pushViewController:ScanVC animated:YES];
+        }
+            break;
+        case 1:
+        {
+            CreatViewController *creatVC = [[CreatViewController alloc]init];
+            
+            [self.navigationController pushViewController:creatVC animated:YES];
+        }
+            break;
+        default:
+            break;
+    }
 }
 
-#pragma mark YQImageCodeToolDelegate
-
-//遵循代理
-
-//扫描到了信息
--(void)YQImageCodeToolGotCodeMessage:(NSString *)message{
-    NSLog(@"message:%@",message);
-}
-
-//相机是否能用返回结果
--(void)YQImageCodeToolCameraAvailableResult:(BOOL)available{
-    NSLog(@"Camera available = %d",available);
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 @end

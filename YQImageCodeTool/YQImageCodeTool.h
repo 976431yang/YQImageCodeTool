@@ -42,7 +42,7 @@ typedef void(^CameraAvailableBlock)(bool available);
 //注：会自动尝试获取相机权限
 //size传相机View的size
 //返回成功与否的结果
--(void)SetUpTheCameraViewWithSize:(CGSize)Size;
+-(void)SetUpTheCameraViewWithFrame:(CGRect)frame;
 
 //--相机View
 @property(nonatomic,strong)UIView *CameraView;

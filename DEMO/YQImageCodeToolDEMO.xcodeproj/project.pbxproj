@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		95197DEE1E7D25790067140A /* ScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95197DED1E7D25790067140A /* ScanViewController.m */; };
+		95197DF11E7D29C00067140A /* CreatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95197DF01E7D29C00067140A /* CreatViewController.m */; };
 		95658E5F1D8938CF00E4B1F4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 95658E5E1D8938CF00E4B1F4 /* main.m */; };
 		95658E621D8938CF00E4B1F4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 95658E611D8938CF00E4B1F4 /* AppDelegate.m */; };
 		95658E651D8938CF00E4B1F4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95658E641D8938CF00E4B1F4 /* ViewController.m */; };
@@ -36,6 +38,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		95197DEC1E7D25790067140A /* ScanViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanViewController.h; sourceTree = "<group>"; };
+		95197DED1E7D25790067140A /* ScanViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanViewController.m; sourceTree = "<group>"; };
+		95197DEF1E7D29C00067140A /* CreatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreatViewController.h; sourceTree = "<group>"; };
+		95197DF01E7D29C00067140A /* CreatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreatViewController.m; sourceTree = "<group>"; };
 		95658E5A1D8938CF00E4B1F4 /* YQImageCodeToolDEMO.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YQImageCodeToolDEMO.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		95658E5E1D8938CF00E4B1F4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		95658E601D8938CF00E4B1F4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -109,6 +115,10 @@
 				95658E611D8938CF00E4B1F4 /* AppDelegate.m */,
 				95658E631D8938CF00E4B1F4 /* ViewController.h */,
 				95658E641D8938CF00E4B1F4 /* ViewController.m */,
+				95197DEC1E7D25790067140A /* ScanViewController.h */,
+				95197DED1E7D25790067140A /* ScanViewController.m */,
+				95197DEF1E7D29C00067140A /* CreatViewController.h */,
+				95197DF01E7D29C00067140A /* CreatViewController.m */,
 				95658E661D8938CF00E4B1F4 /* Main.storyboard */,
 				95658E691D8938CF00E4B1F4 /* Assets.xcassets */,
 				95658E6B1D8938CF00E4B1F4 /* LaunchScreen.storyboard */,
@@ -285,8 +295,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				95658E651D8938CF00E4B1F4 /* ViewController.m in Sources */,
+				95197DEE1E7D25790067140A /* ScanViewController.m in Sources */,
 				95658E621D8938CF00E4B1F4 /* AppDelegate.m in Sources */,
 				95658E961D89392000E4B1F4 /* YQImageCodeTool.m in Sources */,
+				95197DF11E7D29C00067140A /* CreatViewController.m in Sources */,
 				95658E5F1D8938CF00E4B1F4 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
