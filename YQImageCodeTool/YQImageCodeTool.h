@@ -24,7 +24,7 @@
 @interface YQImageCodeTool : NSObject
 
 //--代理
-@property(nonatomic,strong) id <YQImageCodeToolDelegate> delegate;
+@property(nonatomic,weak) id <YQImageCodeToolDelegate> delegate;
 
 //--单例
 +(YQImageCodeTool *)defaultTool;
