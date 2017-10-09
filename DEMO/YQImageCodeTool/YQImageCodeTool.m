@@ -12,6 +12,8 @@
 
 @interface YQImageCodeTool ()<AVCaptureMetadataOutputObjectsDelegate>
 
+@property(nonatomic,strong)AVCaptureVideoPreviewLayer *videoPreViewLayer;
+
 @end
 
 @implementation YQImageCodeTool
@@ -85,14 +87,14 @@ UIView *qrCodeFrameView;
     
     
     //制作摄像头视频View
-    AVCaptureVideoPreviewLayer *videoPreViewLayer = [[AVCaptureVideoPreviewLayer alloc]initWithSession:captureSession];
-    videoPreViewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+    self.videoPreViewLayer = [[AVCaptureVideoPreviewLayer alloc]initWithSession:captureSession];
+    self.videoPreViewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
     
     self.CameraView = [[UIView alloc]initWithFrame:frame];
     
-    videoPreViewLayer.frame = self.CameraView.bounds;
+    self.videoPreViewLayer.frame = self.CameraView.bounds;
     
-    [self.CameraView.layer addSublayer:videoPreViewLayer];
+    [self.CameraView.layer addSublayer:self.videoPreViewLayer];
     
     
     [captureSession startRunning];
@@ -103,6 +105,30 @@ UIView *qrCodeFrameView;
     qrCodeFrameView.layer.borderColor = [[UIColor greenColor] CGColor];
     qrCodeFrameView.layer.borderWidth = 5;
     [self.CameraView addSubview:qrCodeFrameView];
+}
+
+//把相机View的朝向恢复成向上
+-(void)changeCameraViewToDirectionUp
+{
+    self.videoPreViewLayer.connection.videoOrientation = AVCaptureVideoOrientationPortrait;
+}
+
+//把相机View的朝向调整成倒置方向
+-(void)changeCameraViewToDirectionDown
+{
+    self.videoPreViewLayer.connection.videoOrientation = AVCaptureVideoOrientationPortraitUpsideDown;
+}
+
+//把相机View的朝向调整成向左横屏
+-(void)changeCameraViewToDirectionLeft
+{
+    self.videoPreViewLayer.connection.videoOrientation = AVCaptureVideoOrientationLandscapeRight;
+}
+
+//把相机View的朝向调整成向右横屏
+-(void)changeCameraViewToDirectionRight
+{
+    self.videoPreViewLayer.connection.videoOrientation = AVCaptureVideoOrientationLandscapeLeft;
 }
 
 //当AVCaptureMetadataOutput对象识别出来一个二维码，下边的方法（AVCaptureMetadataOutputObjectsDelegate的代理方法）就会被调用
@@ -120,12 +146,7 @@ UIView *qrCodeFrameView;
     
     if (metadataObj.type == AVMetadataObjectTypeQRCode)
     {
-        
-        //通过调用viewPreviewLayer的transformedMetadataObjectForMetadataObject方法(已测试不可用)，元数据对象就会被转化成图层的坐标。通过这个坐标，可以获取二维码的边界并构建绿色方框。
-
-        
         qrCodeFrameView.frame = [self CalculateFrameWithMetaDataFrame:metadataObj.bounds];
-        
         
         // 最后，对二维码进行解码，得到人类可读信息。解码信息可以用过访问
         if (metadataObj.stringValue != nil)
@@ -136,6 +157,7 @@ UIView *qrCodeFrameView;
             UIPasteboard *pastboard = [UIPasteboard generalPasteboard];
             pastboard.string = metadataObj.stringValue;
             
+            
         }else{
             qrCodeFrameView.frame = CGRectZero;
             return ;
@@ -143,7 +165,6 @@ UIView *qrCodeFrameView;
     }
     else if (metadataObj.type == AVMetadataObjectTypeEAN13Code||metadataObj.type == AVMetadataObjectTypeEAN8Code||metadataObj.type == AVMetadataObjectTypeCode128Code) {
         //条形码
-        
         qrCodeFrameView.frame = [self CalculateFrameWithMetaDataFrame:metadataObj.bounds];
         
         if (metadataObj.stringValue != nil)
@@ -166,12 +187,41 @@ UIView *qrCodeFrameView;
 
 //计算frame
 -(CGRect)CalculateFrameWithMetaDataFrame:(CGRect)metadataFrame{
-    if(self.CameraView.frame.size.width/9*16>self.CameraView.frame.size.height){
+    BOOL Dlandescape = NO;
+    BOOL Ddown = NO;
+    switch (self.videoPreViewLayer.connection.videoOrientation) {
+        case AVCaptureVideoOrientationPortrait:
+        {
+            
+        }
+            break;
+        case AVCaptureVideoOrientationPortraitUpsideDown:
+        {
+            Ddown = YES;
+            metadataFrame = CGRectMake(1-metadataFrame.origin.x-metadataFrame.size.width, 1-metadataFrame.origin.y-metadataFrame.size.height, metadataFrame.size.width, metadataFrame.size.height);
+        }
+            break;
+        case AVCaptureVideoOrientationLandscapeLeft:
+        {
+            Dlandescape = YES;
+            metadataFrame = CGRectMake(1-metadataFrame.origin.y-metadataFrame.size.height, metadataFrame.origin.x, metadataFrame.size.height, metadataFrame.size.width);
+        }
+            break;
+        case AVCaptureVideoOrientationLandscapeRight:
+        {
+            Dlandescape = YES;
+            metadataFrame = CGRectMake(metadataFrame.origin.y, 1-metadataFrame.origin.x-metadataFrame.size.width, metadataFrame.size.height, metadataFrame.size.width);
+        }
+            break;
+            
+        default:
+            break;
+    }
+    if(!Dlandescape && self.CameraView.frame.size.width/9*16>self.CameraView.frame.size.height){
         CGFloat width = self.CameraView.frame.size.width*
                         metadataFrame.size.height;
-        CGFloat height = self.CameraView.frame.size.width*
-                        metadataFrame.size.width/9*16;
-        
+        CGFloat height = ((self.CameraView.frame.size.width/9)*16)*
+                        metadataFrame.size.width;
         CGFloat x = (1-metadataFrame.origin.y)*
         self.CameraView.frame.size.width-width;
         
@@ -182,13 +232,40 @@ UIView *qrCodeFrameView;
         
         return  CGRectMake(x,y,width, height);
         
+    }else if(!Dlandescape){
+        CGFloat width = self.CameraView.frame.size.height*
+                        metadataFrame.size.height/16*9;
+        CGFloat height = self.CameraView.frame.size.height*
+                            metadataFrame.size.width;
+        
+        CGFloat shouldWidth = self.CameraView.frame.size.height/9*16;
+        CGFloat shouldX = (1-metadataFrame.origin.y)*shouldWidth;
+        CGFloat x = self.CameraView.frame.size.width/2-
+        (shouldWidth/2-shouldX)-width;
+        
+        CGFloat y = self.CameraView.frame.size.height*metadataFrame.origin.x;
+        
+        return  CGRectMake(x,y,width, height);
+    }else if (self.CameraView.frame.size.width/16*9>self.CameraView.frame.size.height){
+        CGFloat width = self.CameraView.frame.size.width*
+                        metadataFrame.size.height;
+        CGFloat height = ((self.CameraView.frame.size.width/16)*9)*
+                            metadataFrame.size.width;
+        CGFloat x = (1-metadataFrame.origin.y)*
+        self.CameraView.frame.size.width-width;
+        
+        CGFloat shouldHeight = self.CameraView.frame.size.width/16*9;
+        CGFloat shouldY = (metadataFrame.origin.x)*shouldHeight;
+        
+        CGFloat y = self.CameraView.frame.size.height/2-(shouldHeight/2-shouldY);
+        
+        return  CGRectMake(x,y,width, height);
     }else{
         CGFloat width = self.CameraView.frame.size.height*
-        metadataFrame.size.height/16*9;
+                        metadataFrame.size.height/9*16;
         CGFloat height = self.CameraView.frame.size.height*
-        metadataFrame.size.width;
-        
-        CGFloat shouldWidth = self.CameraView.frame.size.height/16*9;
+                        metadataFrame.size.width;
+        CGFloat shouldWidth = self.CameraView.frame.size.height/9*16;
         CGFloat shouldX = (1-metadataFrame.origin.y)*shouldWidth;
         CGFloat x = self.CameraView.frame.size.width/2-
         (shouldWidth/2-shouldX)-width;

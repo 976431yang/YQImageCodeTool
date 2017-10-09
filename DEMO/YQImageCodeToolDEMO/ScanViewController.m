@@ -45,6 +45,7 @@
     //展示使用CameraView
     [self.view addSubview:[YQImageCodeTool defaultTool].CameraView];
     
+    //[[YQImageCodeTool defaultTool] changeCameraViewToDirectionLeft];
     
     //显示信息的Lable
     self.showLab = [[UILabel alloc]initWithFrame:CGRectMake(0,
