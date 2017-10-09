@@ -47,6 +47,17 @@ typedef void(^CameraAvailableBlock)(bool available);
 //--相机View
 @property(nonatomic,strong)UIView *CameraView;
 
+//把相机View的朝向恢复成向上
+-(void)changeCameraViewToDirectionUp;
+
+//把相机View的朝向调整成倒置方向
+-(void)changeCameraViewToDirectionDown;
+
+//把相机View的朝向调整成向左横屏
+-(void)changeCameraViewToDirectionLeft;
+
+//把相机View的朝向调整成向右横屏
+-(void)changeCameraViewToDirectionRight;
 
 //创建二维码
 +CreatQrCodeImageWithMessage:(NSString *)message
