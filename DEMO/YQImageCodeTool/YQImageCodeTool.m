@@ -65,7 +65,9 @@ UIView *qrCodeFrameView;
     
     AVCaptureInput *input = [AVCaptureDeviceInput deviceInputWithDevice:captureDevice error:nil];
     
-    
+    if(!input){
+        @throw @"请使用真机运行";
+    }
     //AVCaptureSession会话是用来管理视频数据流从输入设备传送到输出端的会话过程的。
     captureSession = [AVCaptureSession new];
     [captureSession addInput:input];
