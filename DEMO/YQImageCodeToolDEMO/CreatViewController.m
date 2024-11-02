@@ -25,8 +25,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     
-    self.field = [[UITextField alloc]initWithFrame:CGRectMake(10,
-                                                              70,
+    self.field = [[UITextField alloc]initWithFrame:CGRectMake(10, 70,
                                                               self.view.bounds.size.width-30-60,
                                                               30)];
     self.field.placeholder = @"输入要生成的信息";
@@ -36,10 +35,8 @@
     
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeSystem];
     [btn setTitle:@"生成" forState:UIControlStateNormal];
-    btn.frame = CGRectMake(20+self.field.frame.size.width,
-                           70,
-                           60,
-                           30);
+    btn.frame = CGRectMake(20 + self.field.frame.size.width,
+                           70, 60, 30);
     btn.backgroundColor = [UIColor lightGrayColor];
     [btn addTarget:self  action:@selector(creat) forControlEvents:UIControlEventTouchUpInside];
     
@@ -47,14 +44,12 @@
     
     
     CGFloat width = self.view.frame.size.height - 140;
-    if(width>self.view.frame.size.width-40){
-        width = self.view.frame.size.width-40;
+    if (width > self.view.frame.size.width - 40) {
+        width = self.view.frame.size.width - 40;
     }
     
-    self.showIMGV = [[UIImageView alloc]initWithFrame:CGRectMake(0,
-                                                                 100,
-                                                                 width,
-                                                                 width)];
+    self.showIMGV = [[UIImageView alloc]initWithFrame:CGRectMake(0, 100,
+                                                                 width, width)];
     self.showIMGV.center = CGPointMake(self.view.center.x, self.showIMGV.center.y);
     self.showIMGV.contentMode = UIViewContentModeScaleAspectFit;
     [self.view addSubview:self.showIMGV];
@@ -62,11 +57,11 @@
 }
 
 
--(void)creat{
+- (void)creat {
     
     [self.field resignFirstResponder];
     
-    if(self.field.text.length <= 0){
+    if (self.field.text.length <= 0) {
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"你没有输入内容"
                                                                                  message:@"请输入内容"
                                                                           preferredStyle:UIAlertControllerStyleAlert];
@@ -78,11 +73,10 @@
                                                           }]];
         
         [self presentViewController:alertController animated:YES completion:nil];
-    }else{
-        
+    } else {
         
         //生成二维码
-        UIImage *image = [YQImageCodeTool CreatQrCodeImageWithMessage:self.field.text
+        UIImage *image = [YQImageCodeTool creatQrCodeImageWithMessage:self.field.text
                                                              andWidth:500];
         
         //放到屏幕上查看
